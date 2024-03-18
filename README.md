@@ -30,7 +30,8 @@
 ...
 
 2. Удалить социальные сети vk. yandex.
-3. Вынести чувствительную информацию в отдельный проперти файл: [sensitive.properties](src/main/resources/sensitive.properties)
+3. Вынести чувствительную информацию в отдельный проперти файл:
+ - [sensitive.properties](src/main/resources/sensitive.properties)
 4. Переделать тесты так, чтобы во время тесто использовалась H2:
  - [h2-changelog.sql](src/test/resources/h2-changelog.sql)
  - [AbstractControllerTest](src/test/java/com/javarush/jira/AbstractControllerTest.java)
