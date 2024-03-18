@@ -38,7 +38,7 @@
  - [application-test.yaml](src/test/resources/application-test.yaml)
 5. Написать тесты для всех публичных методов контроллера ProfileRestController:
  - [ProfileRestControllerTest.java](src/test/java/com/javarush/jira/profile/internal/web/ProfileRestControllerTest.java)
-6. Сделать рефакторинг метода upload Ж
+6. Сделать рефакторинг метода upload класса FileUtil:
  - [FileUtil.java](src/main/java/com/javarush/jira/bugtracking/attachment/FileUtil.java)
 7. Добавить новый функционал: добавление тегов к задаче:
  - [TaskService.java](src/main/java/com/javarush/jira/bugtracking/task/TaskService.java)
