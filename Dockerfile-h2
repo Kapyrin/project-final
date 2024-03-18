@@ -1,0 +1,21 @@
+# Use a Debian-based image with OpenJDK 8
+FROM openjdk:8-jre
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y xvfb
+
+# Set up a non-root user
+RUN adduser --disabled-password --gecos '' h2
+USER h2
+
+# Set the working directory
+WORKDIR /opt/h2
+
+# Copy the H2 JAR file
+COPY h2.jar .
+
+# Expose the H2 database port
+EXPOSE 8082
+
+# Start H2 using xvfb-run
+CMD xvfb-run -a java -cp h2.jar org.h2.tools.Server -web -webAllowOthers -tcp -tcpAllowOthers -ifNotExists

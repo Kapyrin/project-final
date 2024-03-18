@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -140,4 +141,75 @@ public class TaskService {
             throw new DataConflictException(String.format(assign ? CANNOT_ASSIGN : CANNOT_UN_ASSIGN, userType, task.getStatusCode()));
         }
     }
+
+    public String taskDurationInWork(Task task) {
+        Long taskId = task.getId();
+        List<Activity> allByTaskIdActivities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(taskId);
+        LocalDateTime readyForReview = null;
+        LocalDateTime inProgress = null;
+
+
+        for (Activity activity : allByTaskIdActivities) {
+            if (activity.getStatusCode() != null && activity.getStatusCode().equals("in_progress")) {
+                inProgress = activity.getUpdated();
+            }
+            if (activity.getStatusCode() != null && activity.getStatusCode().equals("ready_for_review")) {
+                readyForReview = activity.getUpdated();
+            }
+        }
+        if (readyForReview != null && inProgress != null) {
+            Duration duration = Duration.between(readyForReview, inProgress);
+            long days = duration.toDays();
+            long hours = duration.toHours();
+            long minutes = duration.toMinutes();
+            long seconds = duration.getSeconds();
+
+            return days + " дн. " + hours + " час. " + minutes + " мин. и " + seconds + " сек.";
+        } else {
+            return "";
+        }
+
+    }
+
+
+    public String taskDurationInTest(Task task) {
+        Long taskId = task.getId();
+        List<Activity> allByTaskIdActivities = activityHandler.getRepository().findAllByTaskIdOrderByUpdatedDesc(taskId);
+        LocalDateTime readyForReview = null;
+        LocalDateTime done = null;
+
+        for (Activity activity : allByTaskIdActivities) {
+            if (activity.getStatusCode() != null && activity.getStatusCode().equals("done")) {
+                done = activity.getUpdated();
+            }
+            if (activity.getStatusCode() != null && activity.getStatusCode().equals("ready_for_review")) {
+                readyForReview = activity.getUpdated();
+            }
+        }
+        if (readyForReview != null && done != null) {
+            Duration duration = Duration.between(done, readyForReview);
+            long days = duration.toDays();
+            long hours = duration.toHours();
+            long minutes = duration.toMinutes();
+            long seconds = duration.getSeconds();
+
+            return days + " дн. " + hours + " час. " + minutes + " мин. и " + seconds + " сек.";
+        } else {
+            return "";
+        }
+    }
+    @Transactional
+    public void addTagToTask(Long takId, String tag) {
+        Task task = handler.getRepository().getExisted(takId);
+        task.getTags().add(tag);
+        handler.getRepository().save(task);
+    }
+
+    @Transactional
+    public void removeTagToTask(Long takId, String tag) {
+        Task task = handler.getRepository().getExisted(takId);
+        task.getTags().remove(tag);
+        handler.getRepository().save(task);
+    }
+
 }

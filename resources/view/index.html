@@ -1,14 +1,49 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
-<!--/*@thymesVar id="authUser" type="com.javarush.jira.login.AuthUser"*/-->
+<head th:fragment="head">
+    <title>JiraRush - Home</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+<div id="language-buttons">
+    <button onclick="changeLanguage('ru')">RU</button>
+    <button onclick="changeLanguage('en')">EN</button>
+    <button onclick="changeLanguage('es')">ES</button>
+</div>
 
 <th:block th:replace="~{layout/main::page(title='JiraRush: mini bugtracking system',appMain=~{::appMain})}">
     <appMain>
-        <h1>JiraRush Home page</h1>
+        <h1 data-lang="ru" style="display:block;" th:text="'JiraRush Главная страница'"/>
+        <h1 data-lang="en" style="display:none;" th:text="'JiraRush Home page'"/>
+        <h1 data-lang="es" style="display:none;" th:text="'JiraRush Página principal'"/>
+
         <div th:if="${authUser} != null">
             <form action="/ui/logout" method="post">
-                <button class="btn btn-primary btn-lg mt-3" type="submit">Logout</button>
+                <button class="btn btn-primary btn-lg mt-3" type="submit" data-lang="ru" th:text="'Выйти'"/>
+                <button class="btn btn-primary btn-lg mt-3" type="submit" data-lang="en" th:text="'Logout'"/>
+                <button class="btn btn-primary btn-lg mt-3" type="submit" data-lang="es" th:text="'Cerrar sesión'"/>
             </form>
         </div>
     </appMain>
 </th:block>
+
+<script>
+    function changeLanguage(language) {
+        updatePageText(language);
+    }
+
+    $(document).ready(function () {
+        var currentLanguage = 'ru';
+        updatePageText(currentLanguage);
+    });
+
+    function updatePageText(language) {
+        $('[data-lang]').hide();
+        $('[data-lang="' + language + '"]').show();
+    }
+</script>
+
+</body>
+</html>

@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>JiraRush - подтверждение почты</title>
+    <title>JiraRush - Email Confirmation</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
-<p th:text="'Привет, ' + ${user.firstName} + '.'"/>
-<p>Чтобы завершить настройку учетной записи и начать пользоваться JiraRush, подтвердите, что вы правильно указали вашу
-    электронную почту.</p>
-<a th:href="${confirmationUrl}">Подтвердить почту</a>
+
+<div id="language-buttons">
+    <button onclick="changeLanguage('ru')">RU</button>
+    <button onclick="changeLanguage('en')">EN</button>
+    <button onclick="changeLanguage('es')">ES</button>
+</div>
+
+<p data-lang="ru" th:text="'Привет, ' + ${user.firstName} + '.'"/>
+    <p data-lang="en" style="display:none;" th:text="'Hello, ' + ${user.firstName} + '.'"/>
+<p data-lang="es" style="display:none;" th:text="'Hola, ' + ${user.firstName} + '.'"/>
+
+<p data-lang="ru" th:text="'Чтобы завершить настройку учетной записи и начать пользоваться JiraRush, подтвердите, что вы правильно указали вашу электронную почту.'"/>
+<p data-lang="en" style="display:none;">To complete the account setup and start using JiraRush, please confirm that you have entered your email correctly.</p>
+<p data-lang="es" style="display:none;">Para completar la configuración de la cuenta y comenzar a usar JiraRush, confirme que ha ingresado su correo electrónico correctamente.</p>
+
+<a th:href="${confirmationUrl}" data-lang="ru">Подтвердить почту</a>
+<a th:href="${confirmationUrl}" data-lang="en" style="display:none;">Confirm Email</a>
+<a th:href="${confirmationUrl}" data-lang="es" style="display:none;">Confirmar correo electrónico</a>
+
+<script>
+    function changeLanguage(language) {
+        updatePageText(language);
+    }
+
+    $(document).ready(function () {
+        var currentLanguage = 'ru';
+        updatePageText(currentLanguage);
+    });
+
+    function updatePageText(language) {
+        $('[data-lang]').hide();
+        $('[data-lang="' + language + '"]').show();
+    }
+</script>
+
 </body>
 </html>
