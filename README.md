@@ -45,6 +45,10 @@
  - [TaskController.java](src/main/java/com/javarush/jira/bugtracking/task/TaskController.java)
 8. Добавить подсчет времени сколько задача находилась в работе:
 - [TaskService.java](src/main/java/com/javarush/jira/bugtracking/task/TaskService.java)
+9. Написать Dockerfile
+- [Dockerfile](Dockerfile)
+10. Написать docker-compose файл для запуска контейнера сервера вместе с БД и nginx.
+- [docker-compose.yml](docker-compose.yml)
 11. Добавить локализацию минимум на двух языках:
  - [index.html](resources/view/index.html)
  - [email-confirmation.html](resources/mails/email-confirmation.html)
